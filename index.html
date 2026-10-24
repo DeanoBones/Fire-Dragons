@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edge Duel — Tactical Bidding</title>
+<style>
+:root{--bg:#07111f;--panel:#0e1d30;--panel2:#12263d;--line:#203a58;--text:#edf5ff;--muted:#9bb2cc;--blue:#2495ff;--blue2:#0d65bc;--red:#ff4567;--gold:#f7c96b;--green:#51d6a1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#122b48 0%,var(--bg) 52%);color:var(--text);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}button{cursor:pointer;border:0;border-radius:11px;padding:11px 15px;font-weight:750;color:white;background:linear-gradient(135deg,#218fff,#1268c4);box-shadow:0 6px 18px #0066bb25}button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}button.secondary{background:#182e46;border:1px solid #2c4867;box-shadow:none}button.danger{background:#532338;border:1px solid #85334e;box-shadow:none}.wrap{max-width:1180px;margin:auto;padding:24px 18px 42px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#2b9aff,#1558a8);display:grid;place-items:center;font-size:24px}.brand h1{font-size:25px;letter-spacing:-.7px;margin:0}.sub{color:var(--muted);font-size:13px}.pill{border:1px solid #34516e;border-radius:999px;padding:6px 11px;color:#b9d9f8;font-size:12px;white-space:nowrap}.hero{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;margin-bottom:18px}.hero h2{margin:0 0 5px;font-size:clamp(25px,4vw,36px);letter-spacing:-1px}.hero p{margin:0;color:var(--muted);max-width:680px}.hero-actions{display:flex;gap:8px;flex-wrap:wrap}.statusbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:20px 0}.stat,.panel,.battle{background:linear-gradient(180deg,#10233a,#0b192a);border:1px solid var(--line);border-radius:16px}.stat{padding:15px 17px}.stat-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.8px}.stat-value{font-size:28px;font-weight:850;letter-spacing:-.7px;margin-top:2px}.blue{color:var(--blue)}.red{color:var(--red)}.gold{color:var(--gold)}.progress{height:7px;background:#1c324a;border-radius:20px;overflow:hidden;margin-top:11px}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),#6bc4ff);border-radius:20px;transition:width .2s}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:26px 0 12px}.section-head h3{margin:0;font-size:19px}.section-head p{margin:3px 0 0;color:var(--muted);font-size:13px}.battle-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.battle{padding:16px;position:relative;overflow:hidden}.battle.active{border-color:#2e8fe8;box-shadow:0 0 0 1px #2e8fe833,0 10px 32px #0076ff0d}.battle.won{border-color:#207ec6}.battle.lost{border-color:#a93650}.battle.tie{border-color:#a47d32}.battle-top{display:flex;align-items:flex-start;gap:12px}.battle-icon{width:48px;height:48px;flex:0 0 48px;border-radius:13px;display:grid;place-items:center;font-size:25px;background:linear-gradient(135deg,#23496d,#13263d);border:1px solid #315779}.battle h4{font-size:17px;margin:0}.battle .terrain{font-size:12px;color:var(--muted);margin-top:2px}.round-tag{margin-left:auto;font-size:11px;border:1px solid #35516c;border-radius:999px;padding:4px 8px;color:#b7cde3;white-space:nowrap}.battle-desc{color:#c4d4e7;font-size:13px;margin:12px 0}.alloc-row{display:flex;justify-content:space-between;align-items:center;gap:10px}.alloc-row label{font-size:13px;color:#bfd1e5}.alloc-number{font-weight:800;font-size:18px}.range{width:100%;margin:12px 0 3px;accent-color:var(--blue)}.range:disabled{opacity:.45}.minmax{display:flex;justify-content:space-between;color:#7894b1;font-size:11px}.opponent-box{margin-top:13px;padding:10px 11px;border:1px solid #203d59;background:#0a1726;border-radius:10px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}.hidden-value{color:#c7d9ed}.result-line{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}.result{font-size:12px;font-weight:800;padding:5px 9px;border-radius:999px;background:#172d44;color:#bfd3e8}.result.bluewin{background:#123b5d;color:#8bd0ff}.result.redwin{background:#4a1d2d;color:#ff9aae}.result.draw{background:#46391b;color:#ffe09a}.battle button{width:100%;margin-top:12px}.summary{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:16px}.panel{padding:18px}.panel h3{margin:0 0 7px;font-size:17px}.panel p{color:var(--muted);font-size:13px;margin:0}.total-head{display:flex;justify-content:space-between;align-items:center}.total-num{font-size:25px;font-weight:850}.balance-meter{display:flex;height:12px;border-radius:30px;overflow:hidden;background:#24374b;margin:14px 0 9px}.balance-meter span{height:100%;transition:width .2s}.balance-meter .spent{background:var(--gold)}.balance-meter .left{background:var(--blue)}.meter-legend{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px}.commit-box{display:flex;flex-direction:column;justify-content:center;gap:10px}.commit-box button{width:100%;padding:14px}.notice{padding:12px 14px;background:#0b1b2b;border:1px solid #1f3b56;border-radius:11px;color:#a9c1da;font-size:12px}.notice strong{color:#eaf5ff}.timer{font-size:24px;font-weight:850;letter-spacing:.6px;color:var(--gold)}.log{display:grid;gap:8px;margin-top:10px}.log-item{display:flex;align-items:center;gap:10px;padding:10px 11px;background:#0b1929;border:1px solid #1b344d;border-radius:10px;font-size:13px}.log-icon{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:#172d43}.log-item .detail{flex:1}.log-item small{display:block;color:var(--muted);margin-top:2px}.footer{margin-top:22px;color:#7894b1;font-size:12px;text-align:center}.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,18px);background:#eaf5ff;color:#0b1a2a;padding:12px 17px;border-radius:12px;font-weight:750;box-shadow:0 12px 38px #0006;opacity:0;pointer-events:none;transition:.22s;max-width:calc(100vw - 30px);z-index:10}.toast.show{opacity:1;transform:translate(-50%,0)}.modal-backdrop{position:fixed;inset:0;background:#020813bb;display:none;place-items:center;padding:18px;z-index:5}.modal-backdrop.show{display:grid}.modal{max-width:470px;width:100%;background:#102239;border:1px solid #31506f;border-radius:18px;padding:22px;box-shadow:0 20px 80px #0008}.modal h3{margin:0 0 8px}.modal p{color:var(--muted);font-size:14px}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+@media(max-width:760px){.wrap{padding:16px 12px 32px}.hero{grid-template-columns:1fr}.statusbar{grid-template-columns:1fr 1fr}.statusbar .stat:last-child{grid-column:1/-1}.battle-grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}.top{align-items:flex-start}.hero-actions{justify-content:flex-start}.brand h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="logo">⚔</div><div><h1>Edge Duel</h1><div class="sub">Five battlefields. One winner.</div></div></div>
+    <div class="hero-actions"><span class="pill">PROTOTYPE · OFF-CHAIN DEMO</span><button class="secondary" id="resetBtn">Reset demo</button></div>
+  </header>
+
+  <section class="hero">
+    <div><h2>Spend wisely. Win the war.</h2><p>Commit your army to one battlefield at a time. Your opponent's spend stays hidden—even after the result—so every decision gives you clues, not certainty.</p></div>
+    <div class="hero-actions"><button id="newMatchBtn">＋ New demo match</button></div>
+  </section>
+
+  <section class="statusbar">
+    <div class="stat"><div class="stat-label">You · Host / Blue</div><div class="stat-value blue" id="myCredits">100 <small style="font-size:13px;font-weight:600">credits</small></div><div class="progress"><span id="myBar" style="width:100%"></span></div></div>
+    <div class="stat"><div class="stat-label">Opponent · Joiner / Red</div><div class="stat-value red" id="oppCredits">100 <small style="font-size:13px;font-weight:600">credits</small></div><div class="progress"><span id="oppBar" style="width:100%"></span></div></div>
+    <div class="stat"><div class="stat-label">Match score · First to 3</div><div class="stat-value"><span class="blue" id="myScore">0</span> <span style="color:#617d99">—</span> <span class="red" id="oppScore">0</span></div><div class="sub" id="roundLabel">Battle 1 of 5 · Your turn</div></div>
+  </section>
+
+  <div class="section-head"><div><h3>Battlefields</h3><p>Choose a commitment for the active battlefield. Locking is final for this battle.</p></div><span class="pill" id="phasePill">YOUR TURN</span></div>
+  <section class="battle-grid" id="battleGrid"></section>
+
+  <section class="summary">
+    <div class="panel">
+      <div class="total-head"><div><h3>Your army</h3><p>Credits refresh to 100 at the start of every match.</p></div><div class="total-num blue" id="remainingBig">100</div></div>
+      <div class="balance-meter"><span class="left" id="leftMeter" style="width:100%"></span><span class="spent" id="spentMeter" style="width:0%"></span></div>
+      <div class="meter-legend"><span>● <span class="blue">Available</span>: <b id="availableText">100</b></span><span>● <span class="gold">Spent</span>: <b id="spentText">0</b></span></div>
+      <div class="notice" style="margin-top:16px"><strong>Hidden bids:</strong> The demo reveals the winner and your own spend only. A real commit–reveal contract needs a privacy design if bid amounts must remain hidden on a public blockchain after resolution.</div>
+    </div>
+    <div class="panel commit-box">
+      <div><h3 id="actionTitle">Battle 1 is ready</h3><p id="actionText">Choose your allocation, then lock it in. The opponent's bid remains hidden.</p></div>
+      <div class="timer" id="timer">24:00:00</div>
+      <div class="sub" id="timerLabel">Illustrative response window for the active battle</div>
+      <button id="lockBtn">Lock allocation</button>
+      <button class="secondary" id="resolveBtn" style="display:none">Demo: reveal result</button>
+    </div>
+  </section>
+
+  <section class="panel" style="margin-top:16px">
+    <div class="section-head" style="margin:0 0 10px"><div><h3>Battle log</h3><p>Results are public; exact opponent commitments are not shown.</p></div></div>
+    <div class="log" id="battleLog"><div class="sub">No battles resolved yet. Your next decision starts the story.</div></div>
+  </section>
+  <div class="footer">UI prototype only · No wallet connected · No blockchain transactions · No real credits or wagers</div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="modal-backdrop" id="modalBackdrop"><div class="modal"><h3 id="modalTitle">Confirm action</h3><p id="modalText"></p><div class="modal-actions"><button class="secondary" id="cancelModal">Cancel</button><button id="confirmModal">Confirm</button></div></div></div>
+<script>
+const battleInfo=[
+ {name:"The River Crossing",terrain:"Open plains · Mobility",icon:"🌉",desc:"A fast crossing rewards decisive pressure, but overspending here may leave you exposed later."},
+ {name:"The Frozen Pass",terrain:"Mountain pass · Chokepoint",icon:"🏔️",desc:"A narrow route where a modest force may be enough—or your opponent may gamble big."},
+ {name:"The Red Canyon",terrain:"Rocky canyon · Ambush",icon:"🌋",desc:"A dangerous approach. Consider whether this battlefield deserves your reserves."},
+ {name:"The Ancient Ruins",terrain:"Forest ruins · Uncertainty",icon:"🏰",desc:"A contested ruin where reading your opponent's earlier choices may matter most."},
+ {name:"The Lava Fields",terrain:"Volcanic ground · Final push",icon:"🔥",desc:"The final battlefield. How much have you kept in reserve for the end?"}
+];
+const defaultState=()=>({active:0,myCredits:100,oppCredits:100,myScore:0,oppScore:0,locked:false,done:false,alloc:10,results:[],deadline:Date.now()+24*60*60*1000,logs:[],phase:"yourturn"});
+let s=defaultState(),modalAction=null,timerInterval=null;
+const $=id=>document.getElementById(id);
+function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2600)}
+function fmtTime(ms){if(ms<=0)return "00:00:00";let sec=Math.floor(ms/1000),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),ss=sec%60;return [h,m,ss].map(x=>String(x).padStart(2,'0')).join(':')}
+function currentBattle(){return battleInfo[s.active]}
+function render(){
+ $('myCredits').innerHTML=`${s.myCredits} <small style="font-size:13px;font-weight:600">credits</small>`;
+ $('oppCredits').innerHTML=`${s.oppCredits} <small style="font-size:13px;font-weight:600">credits</small>`;
+ $('myBar').style.width=s.myCredits+'%';$('oppBar').style.width=s.oppCredits+'%';
+ $('myScore').textContent=s.myScore;$('oppScore').textContent=s.oppScore;
+ $('roundLabel').textContent=s.done?'Match complete':`Battle ${s.active+1} of 5 · ${s.locked?'Waiting for opponent':'Your turn'}`;
+ $('phasePill').textContent=s.done?'MATCH COMPLETE':s.locked?'WAITING FOR OPPONENT':'YOUR TURN';
+ $('remainingBig').textContent=s.myCredits;$('availableText').textContent=s.myCredits;$('spentText').textContent=100-s.myCredits;
+ $('leftMeter').style.width=s.myCredits+'%';$('spentMeter').style.width=(100-s.myCredits)+'%';
+ $('actionTitle').textContent=s.done?'Match complete':s.locked?'Allocation locked':`Battle ${s.active+1}: ${currentBattle().name}`;
+ $('actionText').textContent=s.done? (s.myScore>s.oppScore?'You win the match!':s.myScore<s.oppScore?'Opponent wins the match.':'The match is tied.') : s.locked?'Your commitment is locked. Wait for the opponent to commit; the battle result is revealed after both have committed.':'Choose how many credits to commit to this battlefield. Your bid is hidden from your opponent.';
+ $('lockBtn').textContent=s.locked?'Waiting for opponent…':'Lock '+s.alloc+' credits';
+ $('lockBtn').disabled=s.locked||s.done;
+ $('resolveBtn').style.display=s.locked&&!s.done?'block':'none';
+ const grid=$('battleGrid');grid.innerHTML='';
+ battleInfo.forEach((b,i)=>{
+  const r=s.results[i],isActive=i===s.active&&!s.done,el=document.createElement('article');
+  el.className='battle'+(isActive?' active':'')+(r?(r.winner==='you'?' won':r.winner==='opponent'?' lost':' tie'):'');
+  let status=r?(r.winner==='you'?'BLUE VICTORY':r.winner==='opponent'?'RED VICTORY':'TIE · RANDOM DRAW'):i<s.active?'RESOLVED':i===s.active?'ACTIVE':'UPCOMING';
+  el.innerHTML=`<div class="battle-top"><div class="battle-icon">${b.icon}</div><div><h4>${b.name}</h4><div class="terrain">${b.terrain}</div></div><span class="round-tag">${String(i+1).padStart(2,'0')} / 05</span></div>
+  <p class="battle-desc">${b.desc}</p>
+  <div class="alloc-row"><label>Your commitment</label><span class="alloc-number blue">${r?`−${r.myBid}`:i===s.active?`${s.alloc} credits`:'—'}</span></div>
+  ${i===s.active&&!s.locked&&!s.done?`<input class="range" type="range" min="1" max="${s.myCredits}" step="1" value="${Math.min(s.alloc,s.myCredits)}" id="allocSlider" aria-label="Credits to commit"><div class="minmax"><span>1 credit</span><span>${s.myCredits} available</span></div>`:''}
+  <div class="opponent-box"><span>Opponent commitment</span><span class="hidden-value">${r?'🔒 Hidden':'? Hidden'}</span></div>
+  <div class="result-line"><span class="result ${r?(r.winner==='you'?'bluewin':r.winner==='opponent'?'redwin':'draw'):''}">${status}</span><span class="sub">${r?`Score ${s.myScore}–${s.oppScore}`:'Result pending'}</span></div>
+  ${i===s.active&&!s.locked&&!s.done?`<button class="lock-card">Lock ${s.alloc} credits</button>`:''}`;
+  grid.appendChild(el);
+ });
+ const slider=$('allocSlider');if(slider)slider.addEventListener('input',e=>{s.alloc=Number(e.target.value);render();const n=$('allocSlider');if(n)n.focus({preventScroll:true})});
+ document.querySelectorAll('.lock-card').forEach(b=>b.addEventListener('click',()=>confirmLock()));
+ $('battleLog').innerHTML=s.logs.length?s.logs.slice().reverse().map(l=>`<div class="log-item"><div class="log-icon">${l.icon}</div><div class="detail"><b>${l.title}</b><small>${l.detail}</small></div><span class="result ${l.cls}">${l.outcome}</span></div>`).join(''):'<div class="sub">No battles resolved yet. Your next decision starts the story.</div>';
+}
+function confirmLock(){if(s.locked||s.done)return;showModal('Lock your allocation?',`You are committing ${s.alloc} credits to ${currentBattle().name}. In the real game this would be a wallet transaction. You cannot change this bid after committing.`,()=>{s.locked=true;s.phase='waiting';s.deadline=Date.now()+24*60*60*1000;render();toast('Allocation locked in this local demo.');});}
+function showModal(title,text,action){$('modalTitle').textContent=title;$('modalText').textContent=text;modalAction=action;$('modalBackdrop').classList.add('show')}
+$('cancelModal').onclick=()=>{$('modalBackdrop').classList.remove('show');modalAction=null};
+$('confirmModal').onclick=()=>{ $('modalBackdrop').classList.remove('show');if(modalAction)modalAction();modalAction=null};
+function resolveDemo(){if(!s.locked||s.done)return;showModal('Simulate the opponent?',`This demo will generate a fictional opponent commitment and resolve ${currentBattle().name}. It will not submit a transaction.`,()=>{
+ const myBid=s.alloc,oppBid=Math.floor(Math.random()*Math.max(1,s.oppCredits))+1;
+ let winner;if(myBid>oppBid)winner='you';else if(myBid<oppBid)winner='opponent';else winner=Math.random()<.5?'you':'opponent';
+ s.myCredits-=myBid;s.oppCredits-=oppBid;if(winner==='you')s.myScore++;else s.oppScore++;
+ const r={myBid,oppBid,winner};s.results[s.active]=r;
+ s.logs.push({icon:currentBattle().icon,title:`Battle ${s.active+1}: ${currentBattle().name}`,detail:`You spent ${myBid} credits · Opponent's spend remains hidden · Random tie-break only if tied`,outcome:winner==='you'?'Blue wins':winner==='opponent'?'Red wins':'Draw',cls:winner==='you'?'bluewin':winner==='opponent'?'redwin':'draw'});
+ s.locked=false;
+ if(s.myScore>=3||s.oppScore>=3||s.active===4){s.done=true;}else{s.active++;s.alloc=Math.min(10,s.myCredits);s.deadline=Date.now()+24*60*60*1000;}
+ render();toast(s.done?(s.myScore>s.oppScore?'Match won!':s.myScore<s.oppScore?'Match lost.':'Match tied.'):'Battle resolved. Next battlefield unlocked.');
+});}
+$('lockBtn').onclick=confirmLock;$('resolveBtn').onclick=resolveDemo;
+$('resetBtn').onclick=()=>showModal('Reset demo?', 'This starts a fresh local match with 100 credits per player. Current demo results will be cleared.',()=>{s=defaultState();render();toast('Fresh match started.');});
+$('newMatchBtn').onclick=()=>{s=defaultState();render();toast('New demo match created.');};
+function tick(){if(s.locked&&!s.done){const left=s.deadline-Date.now();$('timer').textContent=fmtTime(left);$('timerLabel').textContent=left<=0?'Deadline passed · real contract needs timeout handling':'24-hour response window · demo timer';$('timer').style.color=left<=60*60*1000?'#ff8a70':'var(--gold)';}else{$('timer').textContent='24:00:00';$('timerLabel').textContent='Illustrative response window for the active battle';$('timer').style.color='var(--gold)';}}
+render();tick();timerInterval=setInterval(tick,1000);
+</script>
+</body>
+</html>
